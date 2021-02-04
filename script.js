@@ -31,15 +31,22 @@ function fetchApi(result) {
 function template(html) {
     let temp = '';
 
-    html.map(() => {
+    html.map(r => {
+        let startDate = getDate(r.start_time);
+        let endDate = getDate(r.end_time);
+
+        let startTime = getTime(r.start_time);
+        let endTime = getTime(r.end_time);
         temp += 
     `<div class="col-md-4 mx-0 my-2">
         <div class="contest">
-          <h3 class="contest-header">${html.name}</h3>
-          <p class="start-time"><strong> Start:</strong> 3232</p>
-          <p class="end-time"><strong> End:</strong> 8938</p>
-          <p class="in_24"><strong> In 24_hours:</strong> Yes</p>
-          <a href="" class="btn btn-danger text-right">See More!</a>
+          <h3 class="contest-header text-info">${r.name}</h3>
+          <p class="start-time"><strong> Start Date:</strong> ${startDate}</p>
+          <p class="start-time"><strong> Start Time:</strong> ${startTime}</p>
+          <p class="end-time"><strong> End Date:</strong> ${endDate}</p>
+          <p class="end-time"><strong> End Time:</strong> ${endTime}</p>
+          <p class="in_24"><strong> In 24_hours:</strong> ${r.in_24_hours}</p>
+          <a href="${r.url}" target="_blank" class="btn btn-outline-info text-right">See More!</a>
         </div>
       </div>`;
     });
@@ -47,6 +54,15 @@ function template(html) {
     searchRes.innerHTML = temp;
 }
 
-function generatedHtml() {
-    
+function getDate(time) {
+    let date = new Date(time);
+    let newDate = date.toDateString();
+    return newDate;
+}
+
+function getTime(t) {
+    let time = new Date(t);
+    let newTime = time.toLocaleTimeString();
+
+    return newTime;
 }
