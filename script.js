@@ -1,22 +1,20 @@
-// fetch('https://kontests.net/api/v1/all')
-// .then(res => res.json())
-// .then(data => {
-//     contest(data);
-// })
-
 const searchForm = document.querySelector('.form');
 let searchRes = document.querySelector('#contest-row');
 
 
-
-
-searchForm.addEventListener('submit', (e)=>{
-    e.preventDefault();
-
-    let searchResult = e.target.querySelector('#contest-site').value;
+function fetchData() {
+    let searchResult = document.querySelector('#contest-site').value;
     fetchApi(searchResult);
     console.log(searchResult);
-})
+}
+
+// searchForm.addEventListener('submit', (e)=>{
+//     e.preventDefault();
+
+//     let searchResult = e.target.querySelector('#contest-site').value;
+//     fetchApi(searchResult);
+//     console.log(searchResult);
+// })
 
 function fetchApi(result) {
     let query = `https://kontests.net/api/v1/${result}`;
@@ -24,13 +22,15 @@ function fetchApi(result) {
     .then(res => res.json())
     .then(data => {
         console.log(data);
-        template(data);
+            template(data);
     });
 }
+fetchApi('all');
 
 function template(html) {
     let temp = '';
 
+   if(html.length > 0){
     html.map(r => {
         let startDate = getDate(r.start_time);
         let endDate = getDate(r.end_time);
@@ -50,6 +50,14 @@ function template(html) {
         </div>
       </div>`;
     });
+   } else {
+       console.log('No');
+
+    
+       temp = `<span class="alert alert-danger"
+       >No contest is happening at this moment</span
+     >`;
+   }
 
     searchRes.innerHTML = temp;
 }
